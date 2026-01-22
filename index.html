@@ -187,6 +187,9 @@
         }
         .nav-link:hover::after { width: 100%; }
 
+        /* Active Navigation State Helper (optional visual cue) */
+        .nav-link:active { color: var(--brand-primary); }
+
         .nav-cta {
             background: rgba(255, 15, 57, 0.08); border: 1px solid var(--brand-primary);
             color: var(--brand-primary); padding: 9px 22px; border-radius: 4px;
@@ -289,6 +292,13 @@
            7. SECTIONS & CARDS
            -----------------------------------------------------------------
         */
+        /* FIX: Added scroll-margin-top to ensure the fixed navbar 
+           does not obscure the section title when scrolling via the "Tools" button.
+        */
+        #tools-anchor {
+            scroll-margin-top: 100px;
+        }
+
         .section-wrap { max-width: 1280px; margin: 0 auto 80px; padding: 0 24px; }
         
         /* Indian DB Section Modifiers */
@@ -481,7 +491,7 @@
                 SUTANU OSINT
             </div>
             <div class="nav-links">
-                <div class="nav-link" onclick="scrollToId('tools')">Tools</div>
+                <div class="nav-link" onclick="scrollToId('tools-anchor')">Tools</div>
                 <div class="nav-link" onclick="scrollToId('indian-db')">Databases</div>
                 <div class="nav-link" onclick="openModal('more')">More</div>
                 <div class="nav-link" onclick="scrollToId('socials')">Contact</div>
@@ -517,7 +527,8 @@
     </section>
 
     <div id="main-content">
-        
+        <div id="tools-anchor"></div>
+
         <section class="section-wrap indian-mod" id="indian-db">
             <div class="sec-header">
                 <div class="sec-icon"><i class="fa-solid fa-database"></i></div>
@@ -691,7 +702,7 @@
                 Sutanu OSINT does not host any data; all searches redirect to third-party public sources. 
                 Users are solely responsible for compliance with applicable laws (GDPR, CCPA, IT Act 2000).
             </div>
-            <div class="copy">© 2026 Sutanu Industries. All Systems Operational. v5.1.0</div>
+            <div class="copy">© 2026 Sutanu Industries. All Systems Operational. v5.2.0</div>
         </div>
     </footer>
 
@@ -821,10 +832,8 @@
                     card.className = 'card';
                     card.innerHTML = `
                         <div class="card-head">
-                            <span class="card-title">
-                                ${originIcon}
-                                ${tool.name}
-                            </span>
+                            <span class="card-title">${tool.name}</span>
+                            ${originIcon}
                         </div>
                         <div class="card-desc">${tool.desc}</div>
                         <div class="card-foot">
@@ -864,7 +873,7 @@
             }, 400);
         }
 
-        /* 4. SEARCH LOGIC
+        /* 4. SEARCH LOGIC & NAVIGATION SCROLL
         */
         function focusSearch() {
             document.getElementById('searchIn').focus();
@@ -872,7 +881,10 @@
         }
 
         function scrollToId(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            const element = document.getElementById(id);
+            if(element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         function executeTrace() {
@@ -1047,5 +1059,4 @@
         };
     </script>
 </body>
-
 </html>
